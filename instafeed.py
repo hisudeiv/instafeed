@@ -41,13 +41,13 @@ content = st.text_area("피드 내용", key="content_input")
 if st.button("챗GPT로 캡션 생성"):
     if content:
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",  # 최신 모델 명을 확인하고 사용하세요
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": f"이 내용으로 인스타그램 캡션을 생성해줘: {content}"}
             ]
         )
-        generated_caption = response.choices[0]['message']['content'].strip()
+        generated_caption = response['choices'][0]['message']['content'].strip()
         st.session_state["generated_caption"] = generated_caption
         st.success("캡션이 생성되었습니다.")
     else:
