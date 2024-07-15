@@ -1,10 +1,19 @@
-import streamlit as st
+# instafeed.py
 import openai
-import json
-from datetime import datetime
+import os
 
-# OpenAI API 키 설정
-openai.api_key = "sk-proj-wRqqcy5cBmA8oF2OIZvCT3BlbkFJUnUYI8twFwIHreVRKmcR"
+# 환경 변수에서 OpenAI API 키 가져오기
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Hello!"},
+    ]
+)
+
+print(response['choices'][0]['message']['content'])
 
 # 페이지 설정
 st.set_page_config(
