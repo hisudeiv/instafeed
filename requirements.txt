@@ -1,7 +1,0 @@
-git clone https://github.com/hisudeiv/instafeed.git
-cd instafeed
-echo "streamlit\nopenai" > requirements.txt
-git add requirements.txt
-git commit -m "Add openai to requirements"
-git push origin main
-
