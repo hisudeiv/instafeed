@@ -1,19 +1,11 @@
-# instafeed.py
 import openai
 import os
+import json
+from datetime import datetime
+import streamlit as st
 
-# 환경 변수에서 OpenAI API 키 가져오기
-openai.api_key = os.getenv('OPENAI_API_KEY')
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello!"},
-    ]
-)
-
-print(response['choices'][0]['message']['content'])
+# OpenAI API 키 설정
+openai.api_key = os.environ.get('OPENAI_API_KEY', 'sk-YourActualAPIKey')
 
 # 페이지 설정
 st.set_page_config(
@@ -49,16 +41,21 @@ if "feeds" not in st.session_state:
 content = st.text_area("피드 내용", key="content_input")
 if st.button("챗GPT로 캡션 생성"):
     if content:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # 최신 모델 명을 확인하고 사용하세요
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"이 내용으로 인스타그램 캡션을 생성해줘: {content}"}
-            ]
-        )
-        generated_caption = response['choices'][0]['message']['content'].strip()
-        st.session_state["generated_caption"] = generated_caption
-        st.success("캡션이 생성되었습니다.")
+        try:
+            st.write("API 호출 중...")  # 디버깅 메시지 추가
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": f"이 내용으로 인스타그램 캡션을 생성해줘: {content}"}
+                ]
+            )
+            st.write("API 호출 완료")  # 디버깅 메시지 추가
+            generated_caption = response.choices[0]['message']['content'].strip()
+            st.session_state["generated_caption"] = generated_caption
+            st.success("캡션이 생성되었습니다.")
+        except Exception as e:
+            st.error(f"캡션 생성 중 오류가 발생했습니다: {e}")
     else:
         st.warning("내용을 입력해주세요.")
 
