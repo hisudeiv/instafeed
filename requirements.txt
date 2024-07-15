@@ -3,6 +3,8 @@ openai
 pip install --upgrade openai
 import openai
 import os
+export OPENAI_API_KEY='your-api-key-here'
+
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
@@ -16,4 +18,3 @@ response = openai.ChatCompletion.create(
 
 print(response['choices'][0]['message']['content'])
 
-export OPENAI_API_KEY='your-api-key-here'
