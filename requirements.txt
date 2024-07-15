@@ -3,3 +3,7 @@ openai
 git add requirements.txt
 git commit -m "Fix requirements.txt format"
 git push origin main
+echo "streamlit\nopenai" > requirements.txt
+git add requirements.txt
+git commit -m "Fix requirements.txt format"
+git push origin main
